@@ -47,12 +47,11 @@ class Log:
 
     # Add error log, throw exceptions
     @staticmethod
-    def add_error_log(level, class_name, method, message, details, throw_error=True):
+    def add_error_log(level, class_name, method, message, details):
         log_entry = Log.log(level, class_name, method, message, details)
-        if throw_error:
-            raise Exception(log_entry.get_message())
+        raise Exception(log_entry.get_message())
 
     # Add error log for http requests
     @staticmethod
-    def add_http_error_log(response, class_name, method, message, level=Level.ERROR, throw_error=True):
-        Log.add_error_log(level, class_name, method, message, response.text, throw_error)
+    def add_http_error_log(response, class_name, method, message, level=Level.ERROR):
+        Log.add_error_log(level, class_name, method, message, response.text)

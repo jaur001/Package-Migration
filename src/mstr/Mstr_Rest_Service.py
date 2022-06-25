@@ -362,7 +362,7 @@ class MstrRestService:
         def process_error(res):
             Log.add_http_error_log(res, MstrRestService.__name__, method,
                                    "Error updating schema for project " + session.project + " (" + session.project_id + ")",
-                                   level=Level.WARNING, throw_error=False)
+                                   level=Level.WARNING)
 
         def process_success(res):
             Log.log(Level.INFO, MstrRestService.__name__, method, "Schema updated successfully",

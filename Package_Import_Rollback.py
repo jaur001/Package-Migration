@@ -5,6 +5,7 @@ import traceback
 from src.file_sytem.File_Generator import FileGenerator
 from src.package_migration.Package_Process_Factory import PackageProcessFactory
 from src.package_migration.Folder_Output_Generator import FolderOutputGenerator
+from src.utils.Configuration import Configuration
 from src.utils.arguments.Argument_Reader import ArgumentReader
 from src.utils.arguments.Package_Import_Rollback_Arguments import PackageImportRollbackArguments
 

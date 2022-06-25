@@ -97,9 +97,6 @@ buildNumber.properties
 #*.tar.gz
 #*.rar
 
-./PackageMigration/package_imports/*
-./PackageMigration/packages/*
-
 *.mmp
 *.pyc
 *.csv

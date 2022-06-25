@@ -22,16 +22,16 @@ MSTR 2021 Update 4.1
 ### Latest release date: 
 April 6th, 2022
 
-### Changes made:
-Version 1.1
-* Changed order of arguments between project and environment
-* Added session login to try-except, so it will log the errors (in case it happens).
-
+### Changes made: 
 Version 1.0
 * Create package (mmp)
 * Import package
 * Rollback package
 * Migrate package (consumes create package and import package)
+
+Version 1.1
+* Changed order of arguments between project and environment
+* Added session login to try-except, so it will log the errors (in case it happens).
 
 ### Build steps
 * Clone the repository in your machine.

@@ -1,0 +1,22 @@
+{
+  "encryption": {
+    "arguments": {
+      "scriptName": "Password_Encryption.py",
+      "options": [
+        "help",
+        "Username=",
+        "Password=",
+        "PublicKey="
+      ],
+      "argMapping": [
+        "Username",
+        "Password",
+        "PublicKey"
+      ]
+    }
+  },
+  "decryption": {
+    "privateKey": "./private_key.pem",
+    "argumentsToDecrypt": ["SourceUsername","SourcePassword","TargetUsername","TargetPassword"]
+  }
+}

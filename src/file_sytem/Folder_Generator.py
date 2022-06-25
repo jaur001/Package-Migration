@@ -10,7 +10,6 @@ from src.utils.Configuration import Configuration
 
 class FolderGenerator:
     folderStructures = Configuration.get_property("folderStructures")
-    current_folder_suffix = None
 
     @staticmethod
     def generate_package_migration_folder_structure(source_connection_params, target_connection_params):
@@ -44,9 +43,7 @@ class FolderGenerator:
         date = datetime.now()
         str_date = str(date).replace(" ", "_").replace(":", "-")
         str_date = re.sub("\.(.*)", "", str_date)
-        folder_suffix = "_" + str_date + "_" + FolderGenerator.get_environments(environments)
-        FolderGenerator.current_folder_suffix = folder_suffix
-        folder_name = folder_structure["baseFolderName"] + folder_suffix
+        folder_name = folder_structure["baseFolderName"] + "_" + str_date + "_" + FolderGenerator.get_environments(environments)
         folder_path = folder_structure["path"] + folder_name + "/"
         log_path = folder_path + folder_structure["logFolderName"] + "/"
         os.makedirs(log_path)

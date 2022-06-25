@@ -2,7 +2,7 @@
   "autoRollback": true,
   "log_file_Basename": "package_import",
   "arguments": {
-    "scriptName": "Package_Import_Rollback.py",
+    "scriptName": "Package_Import.py",
     "options": [
       "help",
       "TargetUsername=",

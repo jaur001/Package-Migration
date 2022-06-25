@@ -3,8 +3,6 @@ import inspect
 import json
 import traceback
 from functools import reduce
-
-from src.file_sytem.Folder_Generator import FolderGenerator
 from src.log_system.Level import Level
 from src.log_system.Log import Log
 from src.utils.Configuration import Configuration
@@ -21,10 +19,9 @@ class FileGenerator:
     # Get filename for binary.
     @staticmethod
     def get_binary_filename(is_undo):
-        base_filename = FileGenerator.binary_config["undofileBasename"] \
+        filename = FileGenerator.binary_config["undofileBasename"] \
             if is_undo \
             else FileGenerator.binary_config["fileBasename"]
-        filename = base_filename + FolderGenerator.current_folder_suffix
         file_extension = FileGenerator.binary_config["fileExtension"]
         return filename + "." + file_extension
 
