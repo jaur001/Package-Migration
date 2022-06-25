@@ -1,0 +1,31 @@
+{
+  "endpoints": {
+    "login": "/api/auth/login",
+    "closeSession": "/api/auth/logout",
+    "searchObject": "/api/searchObjects/",
+    "createSearch": "/api/metadataSearches/results?domain=2&getAncestors=true&usedByObject=",
+    "getSearchResult": "/api/metadataSearches/results/tree?searchId=",
+    "package": "/api/packages",
+    "import": "/api/packages/imports",
+    "schema": "/api/model/schema/reload"
+  },
+  "tasks": {
+    "purgeElementCache": "/servlet/taskProc?taskId=purgeElementCache&taskEnv=juil_iframe&taskContentType=json&username="
+  },
+  "schemaOptions": ["table_key", "entry_level", "logical_size", "clear_element_cache"],
+  "packageStructure": {
+    "type": "project",
+    "settings": {
+      "updateSchema": [
+        "recal_table_logical_size",
+        "recal_table_keys_fact_entry_level"
+      ],
+      "aclOnReplacingObjects": "use_existing",
+      "aclOnNewObjects": [
+        "inherit_acl_as_dest_folder"
+      ],
+      "defaultAction": "use_existing"
+    },
+    "content": []
+  }
+}

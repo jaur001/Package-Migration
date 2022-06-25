@@ -1,0 +1,25 @@
+{
+  "log_file_Basename": "package_creation",
+  "arguments": {
+    "scriptName": "Package_Creation.py",
+    "options": [
+      "help",
+      "SourceUsername=",
+      "SourcePassword=",
+      "SourceEnvironment=",
+      "SourceProject=",
+      "searchObject=",
+      "dependency=",
+      "actionRule="
+    ],
+    "argMapping": [
+      "SourceUsername",
+      "SourcePassword",
+      "SourceEnvironment",
+      "SourceProject",
+      "searchObject",
+      "dependency",
+      "actionRule"
+    ]
+  }
+}

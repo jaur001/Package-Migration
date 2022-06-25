@@ -1,0 +1,24 @@
+{
+  "autoRollback": true,
+  "log_file_Basename": "package_import",
+  "arguments": {
+    "scriptName": "Package_Import_Rollback.py",
+    "options": [
+      "help",
+      "TargetUsername=",
+      "TargetPassword=",
+      "TargetEnvironment=",
+      "TargetProject=",
+      "type=",
+      "package="
+    ],
+    "argMapping": [
+      "TargetUsername",
+      "TargetPassword",
+      "TargetEnvironment",
+      "TargetProject",
+      "type",
+      "package"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "environments": {
+    "UAT": "http://localhost:8080/MicroStrategyLibrary",
+    "DEV": "http://localhost:8081/MicroStrategyLibrary",
+    "CLD": "https://env-282757.customer.cloud.microstrategy.com/MicroStrategyLibrary"
+  },
+  "projects": {
+    "MTUUAT": "B19DEDCC11D4E0EFC000EB9495D0F44F",
+    "MTUCLD": "B7CA92F04B9FAE8D941C3E9B7E0CD754",
+    "PAL": "E9DDFFDF44C325FDA46CCD8DC23F1882"
+  },
+  "filteredObjectTypes": [31, 29, 30, 57, 9, 49, 45, 50, 51, 44, 35, 34],
+  "timeout": 3600,
+  "interval": 5,
+  "loginMode": 1,
+  "version": "1.1",
+  "folderStructures": {
+    "packageCreation": {
+      "path": "./packages_creation/",
+      "baseFolderName": "Package",
+      "logFolderName": "log",
+      "objectListFolderName": "object_list"
+    },
+    "packageImport": {
+      "path": "./package_imports/",
+      "baseFolderName": "Package_Import",
+      "logFolderName": "log"
+    },
+    "packageRollback": {
+      "path": "./package_rollbacks/",
+      "baseFolderName": "Package_Rollback",
+      "logFolderName": "log"
+    },
+    "packageMigration": {
+      "path": "./package_migrations/",
+      "baseFolderName": "Package_Migration",
+      "logFolderName": "log",
+      "objectListFolderName": "object_list"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "autoRollback": true,
+  "log_file_Basename": "package_migration",
+  "arguments": {
+    "scriptName": "Package_Migration.py",
+    "options": [
+      "help",
+      "SourceUsername=",
+      "SourcePassword=",
+      "SourceEnvironment=",
+      "SourceProject=",
+      "searchObject=",
+      "dependency=",
+      "actionRule=",
+      "TargetUsername=",
+      "TargetPassword=",
+      "TargetEnvironment=",
+      "TargetProject="
+    ],
+    "argMapping": [
+      "SourceUsername",
+      "SourcePassword",
+      "SourceEnvironment",
+      "SourceProject",
+      "searchObject",
+      "dependency",
+      "actionRule",
+      "TargetUsername",
+      "TargetPassword",
+      "TargetEnvironment",
+      "TargetProject"
+    ]
+  }
+}
