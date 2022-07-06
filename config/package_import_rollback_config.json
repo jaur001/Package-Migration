@@ -19,6 +19,7 @@
       "TargetProject",
       "type",
       "package"
-    ]
+    ],
+    "nonRequired": []
   }
 }

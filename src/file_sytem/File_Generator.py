@@ -79,7 +79,8 @@ class FileGenerator:
 
     @staticmethod
     def write_property(manifest, key, value):
-        manifest.write(key + ": " + value + "\n")
+        if value is not None:
+            manifest.write(key + ": " + value + "\n")
 
     # Generate object list (CSV), which holds the objects included in a created package
     @staticmethod

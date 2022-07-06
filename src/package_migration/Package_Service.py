@@ -20,8 +20,11 @@ class PackageService:
     # ___________________________
 
     # Create a MSTR package that can be used to import objects in other environment
-    def create_package(self, mstr_objects, action_rule_config, folder_path):
+    def create_package_with_action_rule(self, mstr_objects, folder_path, action_rule_config):
         package_content = self.map_to_package_content(mstr_objects, action_rule_config)
+        return self.create_package(package_content, folder_path)
+
+    def create_package(self, package_content, folder_path):
         self.package_id = MstrRestService.create_empty_package(self.session)
         MstrRestService.update_package_content(self.session, self.package_id, package_content)
         self.monitor_status()

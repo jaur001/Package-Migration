@@ -19,21 +19,30 @@ class SearchObjectService:
         try:
             search_object_result = MstrRestService.get_search_object_result(session, search_object_id)
             mstr_main_objects = SearchObjectService.process_search_object_result(search_object_result)
-            mstr_objects = []
-            mstr_objects += mstr_main_objects
-            dependents = []
-            if dependency == "DD" or dependency == "AD":
-                include_all_dependencies = dependency == "AD"
-                dependents = SearchObjectService.get_dependents(session, mstr_main_objects, include_all_dependencies)
-                mstr_objects += dependents
+            dependents = SearchObjectService.get_dependencies(dependency, mstr_main_objects, session)
             Log.log(Level.INFO, SearchObjectService.__name__, method,
                                            "Mstr objects retrieved successfully",
                                            "All the objects (source and dependent ones) were retrieved successfully and are ready to be include in package content")
-            return mstr_objects, mstr_main_objects, dependents
+            return mstr_main_objects, dependents
         except Exception:
             Log.add_error_log(Level.ERROR, SearchObjectService.__name__, method,
                                            "Error retrieved mstr objects for package content",
                                            traceback.format_exc())
+
+    # Obtain dependent objects from the original objects
+    @staticmethod
+    def get_dependencies(dependency, mstr_main_objects, session):
+        dependents = []
+        if dependency == "DD" or dependency == "AD":
+            include_all_dependencies = dependency == "AD"
+            for mstr_object in mstr_main_objects:
+                object_tree = SearchObjectService.get_dependent_objects(session, mstr_object["id"], mstr_object["type"],
+                                                                        mstr_object["name"], include_all_dependencies)
+                parse_objects = SearchObjectService.parse_tree(object_tree, include_current_folder=False)
+                for obj in parse_objects:
+                    if SearchObjectService.is_valid_object(obj, mstr_main_objects, dependents):
+                        dependents.append(obj)
+        return dependents
 
     # Process result obtained from Search object, retrieving all the objects.
     @staticmethod
@@ -83,16 +92,3 @@ class SearchObjectService:
         usedByObject = mstr_object_id + ";" + str(object_type)
         search_id = MstrRestService.create_search(session, usedByObject, object_name, include_all_dependencies)
         return MstrRestService.get_search_result(session, search_id, object_name)
-
-    # Obtain dependent objects, objects that are used by main objects (objects obtained from Search object result)
-    @staticmethod
-    def get_dependents(session, mstr_main_objects, include_all_dependencies):
-        dependents = []
-        for mstr_object in mstr_main_objects:
-            object_tree = SearchObjectService.get_dependent_objects(session, mstr_object["id"], mstr_object["type"],
-                                                                    mstr_object["name"], include_all_dependencies)
-            parse_objects = SearchObjectService.parse_tree(object_tree, include_current_folder=False)
-            for obj in parse_objects:
-                if SearchObjectService.is_valid_object(obj, mstr_main_objects, dependents):
-                    dependents.append(obj)
-        return dependents

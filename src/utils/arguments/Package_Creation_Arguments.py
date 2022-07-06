@@ -9,6 +9,7 @@ class PackageCreationArguments:
                                                          args["SourcePassword"],
                                                          args["SourceProject"],
                                                          args["SourceEnvironment"])
-        self.search_object = args["searchObject"]
+        self.mstr_objects = args["mstrObjects"] if "mstrObjects" in args else None
+        self.search_object = args["searchObject"] if "searchObject" in args else None
         self.dependency = args["dependency"]
-        self.action_rule = args["actionRule"]
+        self.action_rule = args["actionRule"] if "actionRule" in args else None

@@ -25,16 +25,12 @@ class PackageCreationService:
         print("Package Creation in progress...")
         package_service = PackageService(session)
         try:
-            action_rule_config = ActionRuleConfig(
-                self.package_creation_args.action_rule)  # Holds data about action rule for each object type
-            # Obtains objects to be included in package
-            mstr_objects, mstr_main_objects, dependents = SearchObjectService.get_objects(session,
-                                                                                          self.package_creation_args.search_object,
-                                                                                          self.package_creation_args.dependency)
-            FileGenerator.generate_object_list(object_list_path, mstr_main_objects,
-                                               dependents)  # Generate object list (all mstr objects)
-            binary_path = package_service.create_package(mstr_objects, action_rule_config,
-                                                         self.folder_path)  # Create package, obtaining path the mmp file
+            if self.package_creation_args.mstr_objects is not None:
+                binary_path = self.create_package_with_mstr_objects(object_list_path, package_service, session, self.package_creation_args.mstr_objects)
+            else:
+                binary_path = self.create_package_with_search_object(object_list_path, package_service, session,
+                                                            self.package_creation_args.action_rule,
+                                                            self.package_creation_args.search_object)
             end = datetime.now()
             message = "Package Creation finished successfully. Finished in " + str(
                 end - start) + ". Binary path: " + binary_path
@@ -49,3 +45,19 @@ class PackageCreationService:
             raise e
         finally:
             package_service.finish_process()  # Delete metadata package
+
+    def create_package_with_search_object(self, object_list_path, package_service, session, action_rule, search_object):
+        action_rule_config = ActionRuleConfig(action_rule)  # Holds data about action rule for each object type
+        # Obtains objects to be included in package
+        mstr_main_objects, dependents = SearchObjectService.get_objects(session, search_object,
+                                                                                      self.package_creation_args.dependency)
+        mstr_objects = mstr_main_objects + dependents
+        FileGenerator.generate_object_list(object_list_path, mstr_main_objects,
+                                           dependents)  # Generate object list (all mstr objects)
+        return package_service.create_package_with_action_rule(mstr_objects, self.folder_path, action_rule_config)  # Create package, obtaining path the mmp file
+
+    def create_package_with_mstr_objects(self, object_list_path, package_service, session, mstr_main_objects):
+        dependents = SearchObjectService.get_dependencies(self.package_creation_args.dependency, mstr_main_objects, session)
+        FileGenerator.generate_object_list(object_list_path, mstr_main_objects, dependents)  # Generate object list (all mstr objects)
+        mstr_objects = mstr_main_objects + dependents
+        return package_service.create_package(mstr_objects, self.folder_path)  # Create package, obtaining path the mmp file

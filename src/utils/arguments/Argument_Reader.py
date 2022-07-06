@@ -49,17 +49,14 @@ class ArgumentReader:
         return args
 
     def get_argument(self, opt_json, key):
-        if key in opt_json:
+        if "--" + key in opt_json:
             return opt_json["--" + key]
         if self.key_is_required(key):
             raise Exception("Error: Argument --" + key + " is required")
-        return self.get_default_value(key)
+        return None
 
     def key_is_required(self, key):
-        return True
-
-    def get_default_value(self, key):
-        pass
+        return key not in self.arguments["nonRequired"]
 
     def decrypt_args(self, args):
         private_key_path = self.decryption_config["privateKey"]

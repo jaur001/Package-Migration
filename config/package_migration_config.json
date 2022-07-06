@@ -9,6 +9,7 @@
       "SourcePassword=",
       "SourceEnvironment=",
       "SourceProject=",
+      "mstrObjects=",
       "searchObject=",
       "dependency=",
       "actionRule=",
@@ -22,6 +23,7 @@
       "SourcePassword",
       "SourceEnvironment",
       "SourceProject",
+      "mstrObjects",
       "searchObject",
       "dependency",
       "actionRule",
@@ -29,6 +31,11 @@
       "TargetPassword",
       "TargetEnvironment",
       "TargetProject"
+    ],
+    "nonRequired": [
+      "mstrObjects",
+      "searchObject",
+      "actionRule"
     ]
   }
 }
