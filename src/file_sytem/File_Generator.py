@@ -108,8 +108,6 @@ class FileGenerator:
     def add_objects(file, mstr_objects, is_source):
         for mstr_object in mstr_objects:
             mstr_object["source"] = "main" if is_source else "dependent"
-            if is_source:
-                mstr_object["path"] = FileGenerator.parse_path(mstr_object)
             object_info = FileGenerator.add_object(mstr_object)
             file.write(object_info + "\n")
 
@@ -118,11 +116,3 @@ class FileGenerator:
         props = FileGenerator.object_list_config["objectProps"].split(",")
         row = map(lambda prop: obj[prop], props)
         return reduce(lambda a, b: str(a) + "," + str(b), row)
-
-    # Parse the object path from ancestors property
-    @staticmethod
-    def parse_path(obj):
-        ancestors = obj["ancestors"]
-        ancestors.pop(0)
-        names = map(lambda ancestor: ancestor["name"], obj["ancestors"])
-        return reduce(lambda a, b: a + "/" + b, names)

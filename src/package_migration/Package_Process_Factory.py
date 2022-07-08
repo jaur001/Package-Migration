@@ -22,11 +22,12 @@ class PackageProcessFactory:
             session = SessionManager.login(
                 package_creation_args.source_connection_params)  # Login in source environment
             # Consumes Service to create the package
-            PackageCreationService(package_creation_args, folder_path).create_package(session, object_list_path)
+            binary_path = PackageCreationService(package_creation_args, folder_path).create_package(session, object_list_path)
             Log.log(Level.INFO, PackageProcessFactory.__name__,
                     inspect.currentframe().f_code.co_name,
                     "Package creation process finished",
                     "Package creation process has finished, the package was successfully created")
+            return binary_path
         except Exception as e:
             Log.log(Level.ERROR, PackageProcessFactory.__name__,
                     inspect.currentframe().f_code.co_name,
@@ -47,12 +48,13 @@ class PackageProcessFactory:
         try:
             session = SessionManager.login(package_import_args.target_connection_params)  # Login in target environment
             # Consumes Service to import/rollback the package
-            PackageImportRollbackService(package_import_args, folder_path).import_rollback_package(session,
+            undo_binary_path = PackageImportRollbackService(package_import_args, folder_path).import_rollback_package(session,
                                                                                                    autoRollback)
             Log.log(Level.INFO, PackageProcessFactory.__name__,
                     inspect.currentframe().f_code.co_name,
                     "Package " + import_type + " process finished",
                     "Package " + import_type + " process has finished")
+            return undo_binary_path
         except Exception as e:
             Log.log(Level.ERROR, PackageProcessFactory.__name__,
                     inspect.currentframe().f_code.co_name, "Error during package " + import_type,

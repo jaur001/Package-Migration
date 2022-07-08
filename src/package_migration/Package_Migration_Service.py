@@ -34,7 +34,7 @@ class PackageMigrationService:
                 target_session = SessionManager.login(
                     self.package_import_args.target_connection_params)  # Login in target environment
                 # Import package created
-                PackageImportRollbackService(self.package_import_args, self.folder_path).import_rollback_package(
+                undo_binary_path = PackageImportRollbackService(self.package_import_args, self.folder_path).import_rollback_package(
                     target_session, autoRollback)
                 end = datetime.now()
                 message = "Package Migration finished successfully. Finished in " + str(end - start)
@@ -42,6 +42,7 @@ class PackageMigrationService:
                         "Package migrated",
                         message)
                 print(message)
+                return binary_path, undo_binary_path
         except Exception as e:
             Log.add_error_log(Level.ERROR, self.__class__.__name__, method, "Package Migration failed",
                               traceback.format_exc())

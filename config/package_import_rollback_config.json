@@ -5,18 +5,18 @@
     "scriptName": "Package_Import.py",
     "options": [
       "help",
-      "TargetUsername=",
-      "TargetPassword=",
-      "TargetEnvironment=",
-      "TargetProject=",
+      "targetUsername=",
+      "targetPassword=",
+      "targetEnvironment=",
+      "targetProject=",
       "type=",
       "package="
     ],
     "argMapping": [
-      "TargetUsername",
-      "TargetPassword",
-      "TargetEnvironment",
-      "TargetProject",
+      "targetUsername",
+      "targetPassword",
+      "targetEnvironment",
+      "targetProject",
       "type",
       "package"
     ],

@@ -21,10 +21,15 @@ class PackageService:
 
     # Create a MSTR package that can be used to import objects in other environment
     def create_package_with_action_rule(self, mstr_objects, folder_path, action_rule_config):
-        package_content = self.map_to_package_content(mstr_objects, action_rule_config)
+        package_content = self.map_to_package_content_with_action_config(mstr_objects, action_rule_config)
         return self.create_package(package_content, folder_path)
 
-    def create_package(self, package_content, folder_path):
+    # Create a MSTR package that can be used to import objects in other environment
+    def create_package(self, mstr_objects, folder_path, action_rule_config=None):
+        package_content = \
+            self.map_to_package_content_with_action_config(mstr_objects, action_rule_config) \
+            if action_rule_config is not None \
+            else self.map_to_package_content(mstr_objects)
         self.package_id = MstrRestService.create_empty_package(self.session)
         MstrRestService.update_package_content(self.session, self.package_id, package_content)
         self.monitor_status()
@@ -36,13 +41,25 @@ class PackageService:
     #   ID, Type, Action and IncludeDependents
     # IncludeDependents is always false because the dependent was already retrieved in previous step
     @staticmethod
-    def map_to_package_content(objects, action_rule_config):
+    def map_to_package_content_with_action_config(objects, action_rule_config):
         content = []
         for obj in objects:
             content.append({
                 "id": obj["id"],
                 "type": obj["type"],
                 "action": action_rule_config.get_action(obj["type"]),
+                "includeDependents": False
+            })
+        return content
+
+    @staticmethod
+    def map_to_package_content(objects):
+        content = []
+        for obj in objects:
+            content.append({
+                "id": obj["id"],
+                "type": obj["type"],
+                "action": obj["action"],
                 "includeDependents": False
             })
         return content
@@ -54,7 +71,13 @@ class PackageService:
     # Import a package to the MicroStrategy environment passing the path to the package
     def import_package(self, package_file_path, undo_package_folder_path, auto_rollback):
         self.upload_binary_package(package_file_path)
-        return self.create_import_process(undo_package_folder_path, auto_rollback)
+        try:
+            return self.create_import_process(undo_package_folder_path, auto_rollback)
+        except Exception as e:
+            raise e
+        finally:
+            # Update schema no matter if it went good or bad
+            MstrRestService.update_schema(self.session)
 
     # Rollback a previous import passing the undo package path
     def rollback_package(self, undo_package_file_path, update_schema=True):
@@ -99,9 +122,6 @@ class PackageService:
                 # Rollback package without updating schema (so it will not be updated twice)
                 self.rollback_package(undo_package_file_path, update_schema=False)
             raise e
-        finally:
-            # Update schema no matter if it went good or bad
-            MstrRestService.update_schema(self.session)
 
     def monitor_undo_generation(self, undo_package_folder_path, start=datetime.now()):
         method = inspect.currentframe().f_code.co_name

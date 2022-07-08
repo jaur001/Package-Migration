@@ -1,13 +1,14 @@
 {
   "environments": {
     "UAT": "http://localhost:8080/MicroStrategyLibrary",
-    "DEV": "http://localhost:8081/MicroStrategyLibrary",
+    "DEV": "http://localhost:8081/MicroStrategyLibrary2021U4",
     "CLD": "https://env-282757.customer.cloud.microstrategy.com/MicroStrategyLibrary"
   },
   "projects": {
     "MTUUAT": "B19DEDCC11D4E0EFC000EB9495D0F44F",
     "MTUCLD": "B7CA92F04B9FAE8D941C3E9B7E0CD754",
-    "PAL": "E9DDFFDF44C325FDA46CCD8DC23F1882"
+    "PAL": "E9DDFFDF44C325FDA46CCD8DC23F1882",
+    "HRA": "AF09B3E3458F78B4FBE4DEB68528BF7B"
   },
   "filteredObjectTypes": [31, 29, 30, 57, 49, 50, 51, 44, 34],
   "timeout": 3600,

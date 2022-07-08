@@ -1,6 +1,4 @@
 import json
-import sys
-import traceback
 
 from src.file_sytem.File_Generator import FileGenerator
 from src.package_migration.Folder_Output_Generator import FolderOutputGenerator
@@ -23,7 +21,9 @@ class PackageAPI:
                                                                                                   package_creation_args.source_connection_params)
             try:
                 # Create process which creates a package
-                PackageProcessFactory.create_package_process(package_creation_args, folder_path, object_list_path)
+                binary_path = PackageProcessFactory.create_package_process(package_creation_args, folder_path,
+                                                                           object_list_path)
+                return "Package Creation finished successfully. Package path: " + binary_path
             except Exception as e:
                 raise e
             finally:
@@ -44,8 +44,10 @@ class PackageAPI:
                                                                                        package_import_args.target_connection_params)
             try:
                 # Create process which imports/rollbacks a package
-                PackageProcessFactory.create_import_rollback_process(package_import_args, folder_path,
-                                                                     main_config["autoRollback"])
+                undo_binary_path = PackageProcessFactory.create_import_rollback_process(package_import_args,
+                                                                                        folder_path,
+                                                                                        main_config["autoRollback"])
+                return "Package" + args["type"] + "finished successfully. Undo Package path: " + undo_binary_path
             except Exception as e:
                 raise e
             finally:
@@ -69,8 +71,9 @@ class PackageAPI:
                                                                                                    package_import_args.target_connection_params)
             try:
                 # Create process which migrates a package
-                PackageMigrationService(package_creation_args, package_import_args, folder_path).migrate_package(
+                binary_path, undo_binary_path = PackageMigrationService(package_creation_args, package_import_args, folder_path).migrate_package(
                     object_list_path, main_config["autoRollback"])
+                return "Package Migration finished successfully.\n\tPackage path: " + binary_path + "\n\tUndo Package path: " + undo_binary_path
             except Exception as e:
                 raise e
             finally:
@@ -78,4 +81,3 @@ class PackageAPI:
                                                 args)  # Generate manifest with all the data about the package creation
         except Exception as e:
             raise e
-
